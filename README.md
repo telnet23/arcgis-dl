@@ -2,12 +2,6 @@
 
 Recursively download all layers from an ArcGIS Server REST API.
 
-## Installation
-
-```
-pip install arcgis-dl
-```
-
 ## Command-Line Examples
 
 Download all layers under a site:

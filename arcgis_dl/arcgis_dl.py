@@ -8,7 +8,7 @@ config = {
     'timeout': 900,
     'cache_dir': None,
     'layer_dir': 'layers',
-    'layer_type': ['Feature Layer', 'Table'],
+    'layer_type': ['feature layer', 'table'],
     'layer_format': 'geojson',
 }
 
@@ -153,7 +153,7 @@ def get_query(layer_url):
         print('Skipping - no layer data')
         return
 
-    if layer_data.get('type') not in config['layer_type']:
+    if layer_data.get('type').lower() not in config['layer_type']:
         print('Skipping - layer type is', layer_data.get('type'))
         return
 

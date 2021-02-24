@@ -12,7 +12,7 @@ def main():
                         help='directory to write layers. default: layers')
     parser.add_argument('-f', '--layer-format', choices=('geojson', 'json'), type=str.lower,
                         help='preferred format of layers to download. default: GeoJSON')
-    parser.add_argument('-t', '--layer-type', action='append',
+    parser.add_argument('-t', '--layer-type', action='append', type=str.lower,
                         help='type(s) of layers to download. default: Feature Layer, Table')
     parser.add_argument('url', nargs='+',
                         help='server url, folder url, service url, or layer url. requires at least one url.')

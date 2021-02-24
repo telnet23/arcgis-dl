@@ -27,17 +27,21 @@ arcgis-dl https://example.com/ExampleSite/rest/services/ExampleFolder/ExampleSer
 ## Command-Line Usage
 
 ```
-usage: arcgis-dl [-h] [-c cache_dir] [-l layers_dir] [-f feature_type] url [url ...]
+usage: arcgis-dl [-h] [-c CACHE_DIR] [-l LAYER_DIR] [-f {geojson,json}] [-t LAYER_TYPE] url [url ...]
 
 positional arguments:
-  url              server url, folder url, service url, or layer url. requires at least one url.
+  url                   server url, folder url, service url, or layer url. requires at least one url.
 
 optional arguments:
-  -h, --help       show this help message and exit
-  -c cache_dir     directory to write cache of raw content. default: None
-  -l layers_dir    directory to write layers. default: layers
-  -f feature_type  type(s) of layers to download. default: Feature Layer
-
+  -h, --help            show this help message and exit
+  -c CACHE_DIR, --cache-dir CACHE_DIR
+                        directory to write cache of raw content. default: None
+  -l LAYER_DIR, --layer-dir LAYER_DIR
+                        directory to write layers. default: layers
+  -f {geojson,json}, --layer-format {geojson,json}
+                        preferred format of layers to download. default: GeoJSON
+  -t LAYER_TYPE, --layer-type LAYER_TYPE
+                        type(s) of layers to download. default: Feature Layer, Table
 ```
 
 ## Formats

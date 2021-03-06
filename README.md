@@ -30,7 +30,7 @@ arcgis-dl https://example.com/ExampleSite/rest/services/ExampleFolder/ExampleSer
 usage: arcgis-dl [-h] [-c CACHE_DIR] [-l LAYER_DIR] [-f {geojson,json}] [-t LAYER_TYPE] url [url ...]
 
 positional arguments:
-  url                   server url, folder url, service url, or layer url. requires at least one url.
+  url                   site url, folder url, service url, or layer url. requires at least one url.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -46,7 +46,7 @@ optional arguments:
 
 ## Formats
 
-Layers are downloaded in GeoJSON format when GeoJSON is supported by the server and in JSON format when GeoJSON is not supported by the server. Third-party utilities, such as [`ogr2ogr`](https://gdal.org/programs/ogr2ogr.html), may be used to convert layers to other formats, such as GeoPackage or Esri Shapefile:
+Layers can be downloaded from the server in GeoJSON format or Esri JSON format. Third-party utilities, such as [`ogr2ogr`](https://gdal.org/programs/ogr2ogr.html), may be used to convert layers to other formats, such as GeoPackage or Esri Shapefile:
 
 ```
 ogr2ogr -f GPKG example.gpkg layers/example/**.geojson

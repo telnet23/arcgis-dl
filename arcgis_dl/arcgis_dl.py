@@ -105,21 +105,23 @@ def get_services(site_url):
     while queue:
         url, *queue = queue
         print('Getting services', url)
-        server_data = get_json(url)
+        site_data = get_json(url)
 
-        if not server_data:
+        if not site_data:
             print('Skipping - no server data')
             continue
 
-        for folder in server_data.get('folders', []):
-            folder_url = site_url + '/' + folder
-            print('Found folder', folder_url)
-            queue.append(folder_url)
+        if site_data.get('folders'):
+            for folder in site_data['folders']:
+                folder_url = site_url + '/' + folder
+                print('Found folder', folder_url)
+                queue.append(folder_url)
 
-        for service in server_data.get('services', []):
-            service_url = site_url + '/' + service['name'] + '/' + service['type']
-            print('Found service', service_url)
-            service_urls.append(service_url)
+        if site_data.get('services'):
+            for service in site_data['services']:
+                service_url = site_url + '/' + service['name'] + '/' + service['type']
+                print('Found service', service_url)
+                service_urls.append(service_url)
 
     return service_urls
 
@@ -127,11 +129,11 @@ def get_layers(service_url):
     print('Getting layers', service_url)
     service_data = get_json(service_url)
 
+    layer_urls = []
+
     if not service_data:
         print('Skipping - no service data')
-        return
-
-    layer_urls = []
+        return layer_urls
 
     for layer in service_data.get('layers', []):
         layer_url = service_url + '/' + str(layer['id'])
@@ -219,17 +221,17 @@ def get_query(layer_url):
                 print('Incomplete query data')
                 break
 
-            features = query_data['features']
-            layer['features'] += features
+            layer['features'] += query_data['features']
 
-        if query_data.get('exceededTransferLimit'):
+        if query_data.get('exceededTransferLimit') and query_data['features']:
             if supportsPagination:
                 query_params['resultOffset'] += layer_data['maxRecordCount']
             else:
+                feature = query_data['features'][-1]
                 if query_params['f'] == 'geojson':
-                    oid_value = features[-1]['properties'][oid_field]
+                    oid_value = feature['properties'][oid_field]
                 else:
-                    oid_value = features[-1]['attributes'][oid_field]
+                    oid_value = feature['attributes'][oid_field]
                 query_params['where'] = oid_field + '>' + str(oid_value)
 
         first = False

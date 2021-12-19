@@ -125,6 +125,10 @@ def get_services(site_url):
 
         if site_data.get('services'):
             for service in site_data['services']:
+                if service['name'] == 'SampleWorldCities':
+                    print(f"Skipping - {service['name']}")
+                    continue
+
                 service_url = site_url + '/' + service['name'] + '/' + service['type']
                 print('Found service', service_url)
                 service_urls.append(service_url)

@@ -10,6 +10,7 @@ config = {
     'layer_dir': 'layers',
     'layer_type': ['feature layer', 'table'],
     'layer_format': 'geojson',
+    'token': None,
 }
 
 def makedirs(path):
@@ -71,9 +72,11 @@ def update_dict(d, u):
             d[key] = u[key]
 
 def get_json(url, params={}):
-    kwargs = {}
-    kwargs['params'] = {'f': 'json'}
-    kwargs['headers'] = {'User-Agent': 'ArcGIS Pro 2.7.0 (00000000000) - ArcGISPro'}
+    kwargs = {'headers': {}, 'params': {}}
+    kwargs['headers']['User-Agent'] = 'ArcGIS Pro 2.7.0 (00000000000) - ArcGISPro'
+    kwargs['params']['f'] = 'json'
+    if config['token'] is not None:
+        kwargs['params']['token'] = config['token']
     update_dict(kwargs['params'], params)
     sort_dict(kwargs)  # Ensure cache path is canonical
     request = requests.Request('GET', url, **kwargs)
@@ -92,7 +95,10 @@ def get_json(url, params={}):
         response = session.send(prepared, timeout=config['timeout'])
         if cache_path is not None:
             write_binary(response.content, cache_path)
-        return response.json()
+        data = response.json()
+        if data.get('error', {}).get('code') == 498:  # Invalid token
+            return get_json(url, params | {'token': None})  # Try without the token
+        return data
     except Exception as exception:  # TODO: Narrow down the exceptions
         print('Ignoring exception', exception)
         print(traceback.format_exc())

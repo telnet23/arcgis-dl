@@ -14,6 +14,8 @@ def main():
                         help='preferred format of layers to download. default: GeoJSON')
     parser.add_argument('-t', '--layer-type', action='append', type=str.lower,
                         help='type(s) of layers to download. default: Feature Layer, Table')
+    parser.add_argument('-k', '--token',
+                        help='authentication token')
     parser.add_argument('url', nargs='+',
                         help='site url, folder url, service url, or layer url. requires at least one url.')
     args = parser.parse_args()

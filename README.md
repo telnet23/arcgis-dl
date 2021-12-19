@@ -27,7 +27,7 @@ arcgis-dl https://example.com/ExampleSite/rest/services/ExampleFolder/ExampleSer
 ## Command-Line Usage
 
 ```
-usage: arcgis-dl [-h] [-c CACHE_DIR] [-l LAYER_DIR] [-f {geojson,json}] [-t LAYER_TYPE] url [url ...]
+usage: arcgis-dl [-h] [-c CACHE_DIR] [-l LAYER_DIR] [-f {geojson,json}] [-t LAYER_TYPE] [-k TOKEN] url [url ...]
 
 positional arguments:
   url                   site url, folder url, service url, or layer url. requires at least one url.
@@ -42,6 +42,8 @@ optional arguments:
                         preferred format of layers to download. default: GeoJSON
   -t LAYER_TYPE, --layer-type LAYER_TYPE
                         type(s) of layers to download. default: Feature Layer, Table
+  -k TOKEN, --token TOKEN
+                        authentication token
 ```
 
 ## Formats

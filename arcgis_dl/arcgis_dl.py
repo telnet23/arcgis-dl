@@ -181,6 +181,7 @@ def get_query(layer_url):
     if config['layer_format'] in supportedQueryFormats:
         query_params['f'] = config['layer_format']
     elif 'json' in supportedQueryFormats:
+        print('Falling back to json query format -', config['layer_format'], 'is not supported')
         query_params['f'] = 'json'
     else:
         print('Skipping - supported query formats are', supportedQueryFormats)
@@ -228,7 +229,9 @@ def get_query(layer_url):
             layer = query_data
         else:
             if not query_data or 'features' not in query_data:
-                print('Incomplete query data')
+                expected = count_data.get('count')
+                actual = len(layer['features']) if 'features' in layer else None
+                print(f'Incomplete query data - retrieved {actual} of {expected} features')
                 break
 
             layer['features'] += query_data['features']
